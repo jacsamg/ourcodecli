@@ -23,7 +23,7 @@
     "url": "https://github.com/jacsamg/ourcodecli.git"
   },
   "scripts": {
-    "clean": "delete dist .tsbuildinfo --force",
+    "clean": "our-delete dist .tsbuildinfo --force",
     "tsc": "tsc",
     "build": "npm run clean && npm run tsc"
   },
