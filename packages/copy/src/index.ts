@@ -114,6 +114,7 @@ async function copyPath(
 
     const absSource = resolve(source);
     let absDest = resolve(destination);
+
     if (rename) {
       absDest = join(absDest, rename);
     }
