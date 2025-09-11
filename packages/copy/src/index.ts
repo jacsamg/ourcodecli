@@ -18,7 +18,7 @@ const errors = {
 };
 
 function showHelp() {
-  console.log('Usage: copy <source> <destination> [--force] [--help]');
+  console.log('Usage: our-copy <source> <destination> [--force] [--help]');
   console.log('Options:');
   console.log('  --force: Overwrite destination if it exists');
   console.log(
