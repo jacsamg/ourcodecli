@@ -1,0 +1,17 @@
+{
+  "name": "ourcodecli",
+  "license": "MIT",
+  "author": "Jacob Samuel G.",
+  "homepage": "https://github.com/jacsamg/ourcodecli",
+  "description": "Personal CLIs for NodeJS",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "publish": "npm publish --workspaces"
+  }
+}

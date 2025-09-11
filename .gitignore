@@ -1,0 +1,16 @@
+# directories
+build
+cache
+dist
+node_modules
+secrets
+temp
+
+# files
+dev.env
+prod.env
+*.log
+
+# system files
+.DS_Store
+Thumbs.db
