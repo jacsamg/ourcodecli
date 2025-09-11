@@ -11,7 +11,7 @@ interface DeleteArgs {
 
 function showHelp(): void {
   console.log(
-    'Usage: delete <path1> [path2] ... [--force] [--strict] [--help]',
+    'Usage: our-delete <path1> [path2] ... [--force] [--strict] [--help]',
   );
   console.log('Options:');
   console.log('  --force: Force deletion without confirmation');
