@@ -1,6 +1,6 @@
 {
   "name": "@ourcodecli/delete",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "author": "Jacob Samuel G.",
   "homepage": "https://github.com/jacsamg/ourcodecli",
@@ -9,7 +9,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "delete": "./dist/index.js"
+    "our-delete": "./dist/index.js"
   },
   "files": [
     "./dist"
