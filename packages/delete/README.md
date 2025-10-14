@@ -6,7 +6,7 @@
 
 ```bash
 # Delete a file or directory
-our-delete <path1>
+our-delete <path1> <path2> ...
 
 # Force deletion without confirmation
 our-delete <path> --force
