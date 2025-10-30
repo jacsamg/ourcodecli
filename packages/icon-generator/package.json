@@ -1,0 +1,43 @@
+{
+  "name": "@ourcodecli/icon-generator",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "Jacob Samuel G.",
+  "homepage": "https://github.com/jacsamg/ourcodecli",
+  "description": "A CLI tool to generate icons",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "our-icon-gen": "./dist/index.js"
+  },
+  "files": [
+    "./dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jacsamg/ourcodecli.git"
+  },
+  "scripts": {
+    "lint": "npx biome check",
+    "clean": "our-delete dist .tsbuildinfo --force",
+    "tsc": "tsc",
+    "build": "npm run clean && npm run tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "sharp": "0.34.4"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.1.3",
+    "@ourcodecli/delete": "*",
+    "@types/node": "^22.9.0",
+    "typescript": "^5.6.3",
+    "vitest": "^1.6.1"
+  }
+}
