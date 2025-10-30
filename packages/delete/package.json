@@ -1,6 +1,6 @@
 {
   "name": "@ourcodecli/delete",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
   "author": "Jacob Samuel G.",
   "homepage": "https://github.com/jacsamg/ourcodecli",
@@ -28,7 +28,8 @@
     "tsc": "tsc",
     "build": "npm run clean && npm run tsc",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.3",

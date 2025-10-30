@@ -13,7 +13,7 @@ async function getVersion(): Promise<string> {
   const pkgPath = join(thisFile, '..', '..', 'package.json');
   try {
     const raw = await readFile(pkgPath, 'utf8');
-    const pkg = JSON.parse(raw) as { version?: string; };
+    const pkg = JSON.parse(raw) as { version?: string };
     return pkg.version ?? '0.0.0';
   } catch {
     return '0.0.0';
