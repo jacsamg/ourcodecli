@@ -1,81 +1,75 @@
 #!/usr/bin/env node
 
-import { rm } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { readFile } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-interface DeleteArgs {
-  force: boolean;
-  strict: boolean;
-  paths: string[];
-}
+import { type DeleteArgs, parseArgs, showHelp } from './args.js';
+import { CliError, ErrorCode } from './errors.js';
+import { removePath } from './remove.js';
 
-function showHelp(): void {
-  console.log(
-    'Usage: our-delete <path1> [path2] ... [--force] [--strict] [--help]',
-  );
-  console.log('Options:');
-  console.log('  --force: Force deletion without confirmation');
-  console.log('  --strict: Exit on first error');
-  console.log('  --help, -h: Show this help message');
-}
-
-function parseArgs(): DeleteArgs {
-  const args = process.argv.slice(2);
-  const deleteArgs: DeleteArgs = { force: false, strict: false, paths: [] };
-
-  for (const arg of args) {
-    switch (arg) {
-      case '--force':
-        deleteArgs.force = true;
-        break;
-      case '--strict':
-        deleteArgs.strict = true;
-        break;
-      case '--help':
-      case '-h':
-        showHelp();
-        return process.exit(1);
-      default:
-        deleteArgs.paths.push(arg);
-    }
-  }
-
-  return deleteArgs;
-}
-
-async function removePath(
-  absPath: string,
-  force: boolean,
-  strict: boolean,
-): Promise<void> {
+async function getVersion(): Promise<string> {
+  // Resolve path to package.json (dist/index.js sits next to package.json)
+  const thisFile = fileURLToPath(import.meta.url);
+  const pkgPath = join(thisFile, '..', '..', 'package.json');
   try {
-    await rm(absPath, { recursive: true, force });
-  } catch (error: unknown) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-      return; // Path does not exist, nothing to do
-    } else if (strict) {
-      throw error;
-    }
+    const raw = await readFile(pkgPath, 'utf8');
+    const pkg = JSON.parse(raw) as { version?: string };
+    return pkg.version ?? '0.0.0';
+  } catch {
+    return '0.0.0';
   }
 }
 
-(async () => {
+async function main(argv: string[]): Promise<number> {
   try {
-    const { force, strict, paths } = parseArgs();
+    const args: DeleteArgs = parseArgs(argv);
 
-    if (paths.length === 0) {
+    if (args.help) {
       showHelp();
-      process.exit(1);
+      return 0;
     }
 
-    for (const relativePath of paths) {
-      const absPath = resolve(relativePath);
+    if (args.version) {
+      const version = await getVersion();
+      console.log(version);
+      return 0;
+    }
 
-      await removePath(absPath, force, strict);
+    if (args.paths.length === 0) {
+      throw new CliError(
+        ErrorCode.MISSING_ARGS,
+        'Missing required argument(s): <path1> [path2] ...',
+      );
+    }
+
+    for (const relativePath of args.paths) {
+      const absPath = resolve(relativePath);
+      await removePath({ absPath, force: args.force, strict: args.strict });
       console.log(`Successfully deleted ${absPath}`);
     }
-  } catch (error: unknown) {
-    console.error(`Error deleting path:`, error);
-    process.exit(1);
+    return 0;
+  } catch (error) {
+    if (error instanceof CliError) {
+      const err = error as CliError;
+      console.error(err.message);
+      if (
+        err.code === ErrorCode.TOO_MANY_ARGS ||
+        err.code === ErrorCode.MISSING_ARGS
+      ) {
+        showHelp();
+      }
+      return err.exitCode ?? 1;
+    }
+    console.error('Error deleting path:', error);
+    return 1;
   }
-})();
+}
+
+// Execute when run as a script
+main(process.argv.slice(2))
+  .then((code) => process.exit(code))
+  .catch((err) => {
+    console.error('Fatal error:', err);
+    process.exit(1);
+  });

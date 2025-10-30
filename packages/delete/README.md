@@ -5,15 +5,23 @@
 ## Usage
 
 ```bash
-# Delete a file or directory
-our-delete <path1> <path2> ...
+# Delete one or more paths
+our-delete <path1> [path2] ...
 
 # Force deletion without confirmation
 our-delete <path> --force
 
-# Exit on first error
+# Exit on first error (stop processing further paths)
 our-delete <path> --strict
 
-# Show help
+# Show help or version
 our-delete --help
+our-delete --version
 ```
+
+Options:
+
+- -f, --force     Force deletion without confirmation
+- -s, --strict    Exit on first error (stop processing further paths)
+- -h, --help      Show help message
+- -v, --version   Print version
