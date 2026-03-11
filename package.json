@@ -10,6 +10,7 @@
     "packages/*"
   ],
   "scripts": {
+    "install": "npm install",
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "deploy": "npm publish --workspaces"
