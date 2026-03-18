@@ -99,14 +99,16 @@ describe('loadConfig', () => {
     await writeFile(
       configPath,
       JSON.stringify(
-        [
-          {
-            force: true,
-            sourcePath: './src/a.txt',
-            targetName: 'shared',
-            targetDir: ['./apps/a', './apps/b'],
-          },
-        ],
+        {
+          symlinks: [
+            {
+              force: true,
+              sourcePath: './src/a.txt',
+              targetName: 'shared',
+              targetDir: ['./apps/a', './apps/b'],
+            },
+          ],
+        },
         null,
         2,
       ),
@@ -114,23 +116,23 @@ describe('loadConfig', () => {
     );
 
     const config = await loadConfig(configPath);
-    expect(config).toHaveLength(1);
-    expect(config[0]?.targetName).toBe('shared');
-    expect(config[0]?.force).toBe(true);
-    expect(config[0]?.targetDir).toEqual(['./apps/a', './apps/b']);
+    expect(config.symlinks).toHaveLength(1);
+    expect(config.symlinks[0]?.targetName).toBe('shared');
+    expect(config.symlinks[0]?.force).toBe(true);
+    expect(config.symlinks[0]?.targetDir).toEqual(['./apps/a', './apps/b']);
   });
 
   it('uses defaults when force and targetName are omitted', async () => {
     const configPath = resolve(tmpRoot, 'defaults.json');
     await writeFile(
       configPath,
-      JSON.stringify([{ sourcePath: './src/a.txt', targetDir: ['./apps/a'] }], null, 2),
+      JSON.stringify({ symlinks: [{ sourcePath: './src/a.txt', targetDir: ['./apps/a'] }] }, null, 2),
       'utf8',
     );
 
     const config = await loadConfig(configPath);
-    expect(config[0]?.force).toBe(false);
-    expect(config[0]?.targetName).toBeUndefined();
+    expect(config.symlinks[0]?.force).toBe(false);
+    expect(config.symlinks[0]?.targetName).toBeUndefined();
   });
 
   it('fails on invalid config shape', async () => {
@@ -146,9 +148,16 @@ describe('loadConfig', () => {
     const configPath = resolve(tmpRoot, 'bad-targets.json');
     await writeFile(
       configPath,
-      JSON.stringify([
-        { force: false, sourcePath: './src/a.txt', targetName: 'shared', targetDir: ['./apps/a', 2] },
-      ]),
+      JSON.stringify({
+        symlinks: [
+          {
+            force: false,
+            sourcePath: './src/a.txt',
+            targetName: 'shared',
+            targetDir: ['./apps/a', 2],
+          },
+        ],
+      }),
       'utf8',
     );
 
@@ -161,7 +170,7 @@ describe('loadConfig', () => {
     const configPath = resolve(tmpRoot, 'bad-flags.json');
     await writeFile(
       configPath,
-      JSON.stringify([{ force: true, targetName: 'x' }]),
+      JSON.stringify({ symlinks: [{ force: true, targetName: 'x' }] }),
       'utf8',
     );
 

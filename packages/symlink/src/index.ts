@@ -118,8 +118,8 @@ async function resolveEntries(args: SymlinkArgs): Promise<ResolvedEntry[]> {
         'Do not pass positional arguments when using --config.',
       );
     }
-    const entries = await loadConfig(resolve(args.config));
-    return entries.map((entry) => ({
+    const config = await loadConfig(resolve(args.config));
+    return config.symlinks.map((entry) => ({
       force: entry.force ?? false,
       sourcePath: entry.sourcePath,
       targetName: entry.targetName ?? null,

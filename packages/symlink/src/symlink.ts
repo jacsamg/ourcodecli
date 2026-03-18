@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { lstat, mkdir, rm, stat, symlink } from 'node:fs/promises';
 import { join } from 'node:path';
 import { CliError, ErrorCode } from './errors.js';
-import { SYMLINK_CONFIG_SCHEMA } from './symlink-config-schema.js';
+import { SYMLINK_CONFIG_SCHEMA } from './config-schema.js';
 import type { OurSymlinkConfig, SymlinkConfig } from './types.js';
 
 interface SourceInfo {
@@ -14,19 +14,29 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 }
 
 function validateConfig(value: unknown): OurSymlinkConfig {
-  const itemSchema = SYMLINK_CONFIG_SCHEMA.items;
-  const requiredKeys = itemSchema.required;
-  const allowedKeys = new Set(Object.keys(itemSchema.properties));
+  const rootSchema = SYMLINK_CONFIG_SCHEMA;
+  const entrySchema = rootSchema.properties.symlinks.items;
+  const requiredKeys = entrySchema.required;
+  const allowedKeys = Object.keys(entrySchema.properties);
+  const allowedKeysSet = new Set(allowedKeys);
 
-  if (!Array.isArray(value)) {
+  if (!isPlainObject(value)) {
     throw new CliError(
       ErrorCode.INVALID_CONFIG,
-      'Config root must be an array of { force?, sourcePath, targetName?, targetDir[] } entries.',
+      'Config root must be an object with a "symlinks" array.',
+    );
+  }
+
+  const symlinks = value.symlinks;
+  if (!Array.isArray(symlinks)) {
+    throw new CliError(
+      ErrorCode.INVALID_CONFIG,
+      'Config root property "symlinks" must be an array.',
     );
   }
 
   const entries: SymlinkConfig[] = [];
-  for (const item of value) {
+  for (const item of symlinks) {
     if (!isPlainObject(item)) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
@@ -35,10 +45,10 @@ function validateConfig(value: unknown): OurSymlinkConfig {
     }
 
     for (const key of Object.keys(item)) {
-      if (!allowedKeys.has(key)) {
+      if (!allowedKeysSet.has(key)) {
         throw new CliError(
           ErrorCode.INVALID_CONFIG,
-          `Unknown config entry property "${key}". Allowed properties: ${requiredKeys.join(', ')}.`,
+          `Unknown config entry property "${key}". Allowed properties: ${allowedKeys.join(', ')}.`,
         );
       }
     }
@@ -108,7 +118,7 @@ function validateConfig(value: unknown): OurSymlinkConfig {
     });
   }
 
-  return entries;
+  return { symlinks: entries };
 }
 
 export async function loadConfig(absConfigPath: string): Promise<OurSymlinkConfig> {

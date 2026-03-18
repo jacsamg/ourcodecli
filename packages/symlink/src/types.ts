@@ -5,4 +5,6 @@ export interface SymlinkConfig {
   targetDir: string[];
 }
 
-export type OurSymlinkConfig = SymlinkConfig[];
+export interface OurSymlinkConfig {
+  symlinks: SymlinkConfig[];
+}

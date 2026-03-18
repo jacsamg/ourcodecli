@@ -37,35 +37,39 @@ export interface SymlinkConfig {
   targetDir: string[];
 }
 
-export type OurSymlinkConfig = SymlinkConfig[];
+export interface OurSymlinkConfig {
+  symlinks: SymlinkConfig[];
+}
 ```
 
 Example:
 
 ```json
-[
-  {
-    "force": true,
-    "sourcePath": "./packages/shared/src",
-    "targetName": "shared-lib",
-    "targetDir": ["./apps/web", "./apps/admin"]
-  },
-  {
-    "sourcePath": "./packages/theme/tokens.json",
-    "targetDir": ["./apps/web", "./apps/mobile"]
-  },
-  {
-    "force": false,
-    "sourcePath": "./packages/utils/src",
-    "targetName": "utils",
-    "targetDir": ["./apps/web", "./apps/mobile"]
-  }
-]
+{
+  "symlinks": [
+    {
+      "force": true,
+      "sourcePath": "./packages/shared/src",
+      "targetName": "shared-lib",
+      "targetDir": ["./apps/web", "./apps/admin"]
+    },
+    {
+      "sourcePath": "./packages/theme/tokens.json",
+      "targetDir": ["./apps/web", "./apps/mobile"]
+    },
+    {
+      "force": false,
+      "sourcePath": "./packages/utils/src",
+      "targetName": "utils",
+      "targetDir": ["./apps/web", "./apps/mobile"]
+    }
+  ]
+}
 ```
 
 JSON Schema available at:
-- `symlink-config.schema.json` (portable JSON Schema file)
-- `src/symlink-config-schema.ts` (`SYMLINK_CONFIG_SCHEMA`, used by config validation in `src/symlink.ts`)
+- `config.schema.json` (portable JSON Schema file)
+- `src/config-schema.ts` (`SYMLINK_CONFIG_SCHEMA`, used by config validation in `src/symlink.ts`)
 
 ## Notes
 
