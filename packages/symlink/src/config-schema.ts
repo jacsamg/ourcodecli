@@ -5,6 +5,10 @@ export const SYMLINK_CONFIG_SCHEMA = {
   additionalProperties: false,
   required: ['symlinks'],
   properties: {
+    $schema: {
+      type: 'string',
+      minLength: 1,
+    },
     symlinks: {
       type: 'array',
       items: {

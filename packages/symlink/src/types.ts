@@ -6,5 +6,6 @@ export interface SymlinkConfig {
 }
 
 export interface OurSymlinkConfig {
+  $schema?: string;
   symlinks: SymlinkConfig[];
 }
