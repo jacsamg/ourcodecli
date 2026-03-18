@@ -20,7 +20,7 @@ describe('parseArgs', () => {
 
     expect(args.source).toBe('./source.txt');
     expect(args.targets).toEqual(['./apps/a', './apps/b']);
-    expect(args.name).toBe('my-link');
+    expect(args.targetName).toBe('my-link');
     expect(args.force).toBe(true);
     expect(args.config).toBeNull();
   });
@@ -29,7 +29,7 @@ describe('parseArgs', () => {
     const args = parseArgs(['--config', './our-symlink.json']);
     expect(args.config).toBe('./our-symlink.json');
     expect(args.force).toBe(false);
-    expect(args.name).toBeNull();
+    expect(args.targetName).toBeNull();
   });
 
   it('throws when --config is combined with --name', () => {

@@ -1,8 +1,8 @@
 export interface SymlinkConfig {
-  name: string;
-  force: boolean;
-  source: string;
-  target: string[];
+  force?: boolean;
+  sourcePath: string;
+  targetName?: string;
+  targetDir: string[];
 }
 
 export type OurSymlinkConfig = SymlinkConfig[];

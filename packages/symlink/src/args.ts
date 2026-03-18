@@ -3,7 +3,7 @@ import { CliError, ErrorCode } from './errors.js';
 export interface SymlinkArgs {
   source: string | null;
   targets: string[];
-  name: string | null;
+  targetName: string | null;
   force: boolean;
   config: string | null;
   help: boolean;
@@ -42,7 +42,7 @@ export function parseArgs(argv: string[]): SymlinkArgs {
   const out: SymlinkArgs = {
     source: null,
     targets: [],
-    name: null,
+    targetName: null,
     force: false,
     config: null,
     help: false,
@@ -62,7 +62,7 @@ export function parseArgs(argv: string[]): SymlinkArgs {
             'Missing value for --name option.',
           );
         }
-        out.name = next;
+        out.targetName = next;
         i++;
         break;
       }
@@ -108,7 +108,7 @@ export function parseArgs(argv: string[]): SymlinkArgs {
     }
   }
 
-  if (out.config !== null && (out.name !== null || out.force)) {
+  if (out.config !== null && (out.targetName !== null || out.force)) {
     throw new CliError(
       ErrorCode.CONFIG_WITH_INLINE_OPTIONS,
       'When using --config, do not pass --name or --force in command line.',

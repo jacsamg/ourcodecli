@@ -31,10 +31,10 @@ Config file must match `OurSymlinkConfig`:
 
 ```ts
 export interface SymlinkConfig {
-  name: string;
-  force: boolean;
-  source: string;
-  target: string[];
+  force?: boolean;
+  sourcePath: string;
+  targetName?: string;
+  targetDir: string[];
 }
 
 export type OurSymlinkConfig = SymlinkConfig[];
@@ -45,25 +45,35 @@ Example:
 ```json
 [
   {
-    "name": "shared-lib",
     "force": true,
-    "source": "./packages/shared/src",
-    "target": ["./apps/web", "./apps/admin"]
+    "sourcePath": "./packages/shared/src",
+    "targetName": "shared-lib",
+    "targetDir": ["./apps/web", "./apps/admin"]
   },
   {
-    "name": "tokens",
+    "sourcePath": "./packages/theme/tokens.json",
+    "targetDir": ["./apps/web", "./apps/mobile"]
+  },
+  {
     "force": false,
-    "source": "./packages/theme/tokens.json",
-    "target": ["./apps/web", "./apps/mobile"]
+    "sourcePath": "./packages/utils/src",
+    "targetName": "utils",
+    "targetDir": ["./apps/web", "./apps/mobile"]
   }
 ]
 ```
+
+JSON Schema available at:
+- `symlink-config.schema.json` (portable JSON Schema file)
+- `src/symlink-config-schema.ts` (`SYMLINK_CONFIG_SCHEMA`, used by config validation in `src/symlink.ts`)
 
 ## Notes
 
 - Relative and absolute paths are supported. All paths are normalized from current working directory.
 - `sourcePath` can be a file or directory.
 - `targetPath` values are treated as destination directories. Missing directories are created.
+- `force` is optional in config and defaults to `false`.
+- `targetName` is optional in config and defaults to the source basename.
 - Execution continues across multiple targets and reports a final success/failure summary.
 - When using `--config`, do not pass `--name` or `--force` in command line (those values come from each config entry).
 - On Windows, directory links use `junction` for compatibility.

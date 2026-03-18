@@ -101,10 +101,10 @@ describe('loadConfig', () => {
       JSON.stringify(
         [
           {
-            name: 'shared',
             force: true,
-            source: './src/a.txt',
-            target: ['./apps/a', './apps/b'],
+            sourcePath: './src/a.txt',
+            targetName: 'shared',
+            targetDir: ['./apps/a', './apps/b'],
           },
         ],
         null,
@@ -115,9 +115,22 @@ describe('loadConfig', () => {
 
     const config = await loadConfig(configPath);
     expect(config).toHaveLength(1);
-    expect(config[0]?.name).toBe('shared');
+    expect(config[0]?.targetName).toBe('shared');
     expect(config[0]?.force).toBe(true);
-    expect(config[0]?.target).toEqual(['./apps/a', './apps/b']);
+    expect(config[0]?.targetDir).toEqual(['./apps/a', './apps/b']);
+  });
+
+  it('uses defaults when force and targetName are omitted', async () => {
+    const configPath = resolve(tmpRoot, 'defaults.json');
+    await writeFile(
+      configPath,
+      JSON.stringify([{ sourcePath: './src/a.txt', targetDir: ['./apps/a'] }], null, 2),
+      'utf8',
+    );
+
+    const config = await loadConfig(configPath);
+    expect(config[0]?.force).toBe(false);
+    expect(config[0]?.targetName).toBeUndefined();
   });
 
   it('fails on invalid config shape', async () => {
@@ -134,7 +147,7 @@ describe('loadConfig', () => {
     await writeFile(
       configPath,
       JSON.stringify([
-        { name: 'shared', force: false, source: './src/a.txt', target: ['./apps/a', 2] },
+        { force: false, sourcePath: './src/a.txt', targetName: 'shared', targetDir: ['./apps/a', 2] },
       ]),
       'utf8',
     );
@@ -144,11 +157,11 @@ describe('loadConfig', () => {
     });
   });
 
-  it('fails when name or force are missing in config entry', async () => {
+  it('fails when required sourcePath/targetDir are missing in config entry', async () => {
     const configPath = resolve(tmpRoot, 'bad-flags.json');
     await writeFile(
       configPath,
-      JSON.stringify([{ source: './src/a.txt', target: ['./apps/a'] }]),
+      JSON.stringify([{ force: true, targetName: 'x' }]),
       'utf8',
     );
 

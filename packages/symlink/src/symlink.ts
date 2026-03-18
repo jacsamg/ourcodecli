@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { lstat, mkdir, rm, stat, symlink } from 'node:fs/promises';
 import { join } from 'node:path';
 import { CliError, ErrorCode } from './errors.js';
+import { SYMLINK_CONFIG_SCHEMA } from './symlink-config-schema.js';
 import type { OurSymlinkConfig, SymlinkConfig } from './types.js';
 
 interface SourceInfo {
@@ -13,10 +14,14 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 }
 
 function validateConfig(value: unknown): OurSymlinkConfig {
+  const itemSchema = SYMLINK_CONFIG_SCHEMA.items;
+  const requiredKeys = itemSchema.required;
+  const allowedKeys = new Set(Object.keys(itemSchema.properties));
+
   if (!Array.isArray(value)) {
     throw new CliError(
       ErrorCode.INVALID_CONFIG,
-      'Config root must be an array of { name, force, source, target[] } entries.',
+      'Config root must be an array of { force?, sourcePath, targetName?, targetDir[] } entries.',
     );
   }
 
@@ -25,61 +30,81 @@ function validateConfig(value: unknown): OurSymlinkConfig {
     if (!isPlainObject(item)) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Each config entry must be an object with name, force, source and target.',
+        'Each config entry must be an object with sourcePath, targetDir and optional force/targetName.',
       );
     }
 
-    const name = item.name;
+    for (const key of Object.keys(item)) {
+      if (!allowedKeys.has(key)) {
+        throw new CliError(
+          ErrorCode.INVALID_CONFIG,
+          `Unknown config entry property "${key}". Allowed properties: ${requiredKeys.join(', ')}.`,
+        );
+      }
+    }
+    for (const key of requiredKeys) {
+      if (!(key in item)) {
+        throw new CliError(
+          ErrorCode.INVALID_CONFIG,
+          `Missing config entry property "${key}". Required properties: ${requiredKeys.join(', ')}.`,
+        );
+      }
+    }
+
     const force = item.force;
-    const source = item.source;
-    const target = item.target;
-    if (typeof name !== 'string' || name.trim().length === 0) {
+    const sourcePath = item.sourcePath;
+    const targetName = item.targetName;
+    const targetDir = item.targetDir;
+    if (force !== undefined && typeof force !== 'boolean') {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "name" must be a non-empty string.',
+        'Config entry "force" must be a boolean when provided.',
       );
     }
-    if (typeof force !== 'boolean') {
+    if (typeof sourcePath !== 'string' || sourcePath.trim().length === 0) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "force" must be a boolean.',
+        'Config entry "sourcePath" must be a non-empty string.',
       );
     }
-    if (typeof source !== 'string' || source.trim().length === 0) {
+    if (
+      targetName !== undefined &&
+      (typeof targetName !== 'string' || targetName.trim().length === 0)
+    ) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "source" must be a non-empty string.',
+        'Config entry "targetName" must be a non-empty string when provided.',
       );
     }
-    if (!Array.isArray(target)) {
+    if (!Array.isArray(targetDir)) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "target" must be an array of strings.',
+        'Config entry "targetDir" must be an array of strings.',
       );
     }
-    if (target.some((t) => typeof t !== 'string')) {
+    if (targetDir.some((t) => typeof t !== 'string')) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "target" must contain only strings.',
+        'Config entry "targetDir" must contain only strings.',
       );
     }
 
-    const cleanTarget = target
+    const cleanTargetDir = targetDir
       .map((t) => t.trim())
       .filter((t) => t.length > 0);
 
-    if (cleanTarget.length === 0) {
+    if (cleanTargetDir.length === 0) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "target" must include at least one non-empty directory path.',
+        'Config entry "targetDir" must include at least one non-empty directory path.',
       );
     }
 
     entries.push({
-      name: name.trim(),
-      force,
-      source: source.trim(),
-      target: cleanTarget,
+      force: force ?? false,
+      sourcePath: sourcePath.trim(),
+      targetName: typeof targetName === 'string' ? targetName.trim() : undefined,
+      targetDir: cleanTargetDir,
     });
   }
 

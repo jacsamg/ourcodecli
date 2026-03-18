@@ -9,10 +9,10 @@ import { CliError, ErrorCode } from './errors.js';
 import { createSymlinkInTarget, loadConfig } from './symlink.js';
 
 interface ResolvedEntry {
-  name: string | null;
   force: boolean;
-  source: string;
-  target: string[];
+  sourcePath: string;
+  targetName: string | null;
+  targetDir: string[];
 }
 
 async function getVersion(): Promise<string> {
@@ -48,9 +48,9 @@ async function main(argv: string[]): Promise<number> {
     let failed = 0;
 
     for (const entry of entries) {
-      const absSource = resolve(entry.source);
-      const linkName = entry.name ?? basename(absSource);
-      for (const target of entry.target) {
+      const absSource = resolve(entry.sourcePath);
+      const linkName = entry.targetName ?? basename(absSource);
+      for (const target of entry.targetDir) {
         total++;
         const absTargetDir = resolve(target);
         try {
@@ -66,11 +66,11 @@ async function main(argv: string[]): Promise<number> {
           failed++;
           if (error instanceof CliError) {
             console.error(
-              `Failed for target "${target}" using source "${entry.source}": ${error.message}`,
+              `Failed for target "${target}" using source "${entry.sourcePath}": ${error.message}`,
             );
           } else {
             console.error(
-              `Failed for target "${target}" using source "${entry.source}":`,
+              `Failed for target "${target}" using source "${entry.sourcePath}":`,
               error,
             );
           }
@@ -120,10 +120,10 @@ async function resolveEntries(args: SymlinkArgs): Promise<ResolvedEntry[]> {
     }
     const entries = await loadConfig(resolve(args.config));
     return entries.map((entry) => ({
-      name: entry.name,
-      force: entry.force,
-      source: entry.source,
-      target: entry.target,
+      force: entry.force ?? false,
+      sourcePath: entry.sourcePath,
+      targetName: entry.targetName ?? null,
+      targetDir: entry.targetDir,
     }));
   }
 
@@ -136,10 +136,10 @@ async function resolveEntries(args: SymlinkArgs): Promise<ResolvedEntry[]> {
 
   return [
     {
-      name: args.name,
       force: args.force,
-      source: args.source,
-      target: args.targets,
+      sourcePath: args.source,
+      targetName: args.targetName,
+      targetDir: args.targets,
     },
   ];
 }
