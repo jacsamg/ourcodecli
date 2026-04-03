@@ -23,20 +23,20 @@
     "url": "https://github.com/jacsamg/ourcodecli.git"
   },
   "scripts": {
-    "lint": "npx biome check",
+    "lint": "biome check",
     "clean": "our-delete dist .tsbuildinfo --force",
     "tsc": "tsc",
-    "build": "npm run clean && npm run tsc",
+    "build": "pnpm run clean && tsc",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "sharp": "0.34.4"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.2",
-    "@ourcodecli/delete": "*",
+    "@ourcodecli/delete": "workspace:*",
     "@types/node": "^22.9.0",
     "typescript": "^5.6.3",
     "vitest": "^1.6.1"

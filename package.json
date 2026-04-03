@@ -6,13 +6,9 @@
   "description": "Personal CLIs for NodeJS",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "install": "npm install",
-    "build": "npm run build --workspaces",
-    "test": "npm run test --workspaces",
-    "deploy": "npm publish --workspaces"
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "deploy": "pnpm -r publish"
   }
 }

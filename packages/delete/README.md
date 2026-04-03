@@ -1,6 +1,6 @@
 # Our code CLI - Delete
 - A CLI tool to delete files and directories
-- Install with `npm i -D @ourcodecli/delete`
+- Install with `npm i -D @ourcodecli/delete` or `pnpm add -D @ourcodecli/delete`
 
 ## Usage
 

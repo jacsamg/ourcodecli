@@ -1,6 +1,6 @@
 # Our code CLI - Symlink
 - A CLI tool to create symbolic links to files or directories
-- Install with `npm i -D @ourcodecli/symlink`
+- Install with `npm i -D @ourcodecli/symlink` or `pnpm add -D @ourcodecli/symlink`
 
 ## Usage
 

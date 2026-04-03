@@ -1,6 +1,6 @@
 # Our code CLI - Copy
 - A CLI tool to copy files and directories
-- Install with `npm i -D @ourcodecli/copy`
+- Install with `npm i -D @ourcodecli/copy` or `pnpm add -D @ourcodecli/copy`
 
 ## Usage
 

@@ -1,6 +1,7 @@
 # @ourcodecli/icon-generator
 
-Generate PWA icon PNGs at common sizes from a single source image.
+- A CLI tool to generate PWA icon PNGs at common sizes from a single source image
+- Install with `npm i -D @ourcodecli/icon-generator` or `pnpm add -D @ourcodecli/icon-generator`
 
 ## Usage
 
