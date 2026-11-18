@@ -32,12 +32,17 @@ y se complementan con el `AGENTS.md` de cada paquete (si existe).
 
 ### Biome
 
-Hay una sola configuración: `.prettierrc` del root (100 columnas, comillas
-simples), con versión exacta instalada solo en el root. No agregues
-`.prettierrc` ni Prettier a los paquetes; las reglas específicas de un paquete
-van en `overrides` del root. Formatea solo los archivos que cambias con
-`npx prettier --check <ruta>` (o `--write`). Desde el root,
-`npm run format:check` y `npm run format` cubren todos los paquetes.
+Hay una sola configuración base: `biome.json` del root (80 columnas, comillas
+simples, 2 espacios, solo archivos bajo `src/`). `@biomejs/biome` se instala
+con versión exacta solo en el root; no lo agregues como dependencia de los
+paquetes. Cada paquete tiene un `biome.json` mínimo con `"root": false` y
+`"extends": "//"`; las reglas específicas de un paquete van ahí. Los `$schema`
+apuntan a `node_modules/@biomejs/biome/configuration_schema.json` para seguir
+siempre a la versión instalada.
+
+Revisa solo los archivos que cambias con `npx biome check <ruta>` (o
+`--write`). Desde el root, `npm run lint` y `npm run format` cubren todos los
+paquetes; dentro de un paquete, `npm run lint` revisa solo ese paquete.
 
 ### Fallar primero y rápido (fail-fast)
 

@@ -16,6 +16,11 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
-    "deploy": "npm publish --workspaces"
+    "deploy": "npm publish --workspaces",
+    "lint": "biome check",
+    "format": "biome check --write"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.8"
   }
 }
