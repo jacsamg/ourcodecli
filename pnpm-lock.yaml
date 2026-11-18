@@ -63,6 +63,24 @@ importers:
         specifier: ^1.6.1
         version: 1.6.1(@types/node@22.19.17)
 
+  packages/material-symbols:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^2.1.3
+        version: 2.4.10
+      '@ourcodecli/delete':
+        specifier: workspace:*
+        version: link:../delete
+      '@types/node':
+        specifier: ^22.9.0
+        version: 22.19.17
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.1
+        version: 1.6.1(@types/node@22.19.17)
+
   packages/symlink:
     devDependencies:
       '@biomejs/biome':

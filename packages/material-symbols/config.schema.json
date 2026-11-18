@@ -1,0 +1,508 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OurMaterialSymbolsConfig",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "icons"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "icons": {
+      "description": "Ligaduras que se incluirán en todas las familias.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^\\s*[a-z0-9]+(?:_[a-z0-9]+)*\\s*$"
+      }
+    },
+    "families": {
+      "description": "Variantes a generar. Por defecto: [\"Rounded\"].",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "Outlined",
+          "Rounded",
+          "Sharp"
+        ]
+      }
+    },
+    "axes": {
+      "description": "Ejes variables. enabled:false usa el valor por defecto de Google; mode:\"fixed\" fija un valor; mode:\"range\" conserva el rango.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "opsz": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": false
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled",
+                "mode",
+                "value"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": true
+                },
+                "mode": {
+                  "const": "fixed"
+                },
+                "value": {
+                  "type": "number"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled",
+                "mode",
+                "min",
+                "max"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": true
+                },
+                "mode": {
+                  "const": "range"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "value": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        },
+        "wght": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": false
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled",
+                "mode",
+                "value"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": true
+                },
+                "mode": {
+                  "const": "fixed"
+                },
+                "value": {
+                  "type": "number"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled",
+                "mode",
+                "min",
+                "max"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": true
+                },
+                "mode": {
+                  "const": "range"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "value": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        },
+        "FILL": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": false
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled",
+                "mode",
+                "value"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": true
+                },
+                "mode": {
+                  "const": "fixed"
+                },
+                "value": {
+                  "type": "number"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled",
+                "mode",
+                "min",
+                "max"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": true
+                },
+                "mode": {
+                  "const": "range"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "value": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        },
+        "GRAD": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": false
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled",
+                "mode",
+                "value"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": true
+                },
+                "mode": {
+                  "const": "fixed"
+                },
+                "value": {
+                  "type": "number"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled",
+                "mode",
+                "min",
+                "max"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": true
+                },
+                "mode": {
+                  "const": "range"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "value": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        },
+        "ROND": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": false
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled",
+                "mode",
+                "value"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": true
+                },
+                "mode": {
+                  "const": "fixed"
+                },
+                "value": {
+                  "type": "number"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "enabled",
+                "mode",
+                "min",
+                "max"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": true
+                },
+                "mode": {
+                  "const": "range"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "value": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "display": {
+      "enum": [
+        "auto",
+        "block",
+        "swap",
+        "fallback",
+        "optional"
+      ]
+    },
+    "fontOutputDirectory": {
+      "type": "string",
+      "minLength": 1
+    },
+    "publicFontBaseUrl": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "cssOutputPath": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metadataOutputPath": {
+      "type": "string",
+      "minLength": 1
+    },
+    "preloadOutputPath": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cssClassPrefix": {
+      "type": "string",
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+    },
+    "localFontFamilyPrefix": {
+      "type": "string",
+      "minLength": 1
+    },
+    "useContentHash": {
+      "type": "boolean"
+    },
+    "fileBaseName": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]*$"
+    },
+    "allowMultipleFontFilesPerFamily": {
+      "type": "boolean"
+    },
+    "removeObsoleteGeneratedFonts": {
+      "type": "boolean"
+    },
+    "requestTimeoutMs": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "maximumCssBytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "maximumFontBytesEach": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "maximumTotalFontBytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "performanceBudgetBytes": {
+      "description": "Presupuesto conjunto de todas las fuentes; null lo desactiva.",
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "userAgent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "css": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "includeBaseClasses": {
+          "type": "boolean"
+        },
+        "includeAxisUtilities": {
+          "type": "boolean"
+        },
+        "includeSourceComment": {
+          "type": "boolean"
+        },
+        "defaultAxisValues": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "opsz": {
+              "type": "number"
+            },
+            "wght": {
+              "type": "number"
+            },
+            "FILL": {
+              "type": "number"
+            },
+            "GRAD": {
+              "type": "number"
+            },
+            "ROND": {
+              "type": "number"
+            }
+          }
+        },
+        "utilities": {
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "opsz": {
+                "type": "number"
+              },
+              "wght": {
+                "type": "number"
+              },
+              "FILL": {
+                "type": "number"
+              },
+              "GRAD": {
+                "type": "number"
+              },
+              "ROND": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "dryRun": {
+      "type": "boolean"
+    }
+  }
+}
