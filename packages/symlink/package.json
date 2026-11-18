@@ -27,14 +27,14 @@
     "lint": "biome check",
     "clean": "our-delete dist .tsbuildinfo --force",
     "tsc": "tsc",
-    "build": "pnpm run clean && tsc",
+    "build": "npm run clean && tsc",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.3",
-    "@ourcodecli/delete": "workspace:*",
+    "@ourcodecli/delete": "*",
     "@types/node": "^22.9.0",
     "typescript": "^5.6.3",
     "vitest": "^1.6.1"

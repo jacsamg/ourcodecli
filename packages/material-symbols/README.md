@@ -1,7 +1,7 @@
 # Our code CLI - Material Symbols
 
 - CLI para generar subconjuntos **self-hosted** de [Google Material Symbols](https://fonts.google.com/icons): descarga solo los iconos, familias y ejes que configures, guarda los WOFF2 en tu proyecto y genera el CSS para usarlos sin depender del CDN de Google en runtime.
-- Instala con `npm i -D @ourcodecli/material-symbols` o `pnpm add -D @ourcodecli/material-symbols`
+- Instala con `npm i -D @ourcodecli/material-symbols`
 - Requiere Node.js 20 o posterior. Solo necesita Internet cuando regeneras las fuentes.
 
 Pensado para aplicaciones Angular con Tailwind CSS, aunque el resultado sirve en cualquier aplicación web.
