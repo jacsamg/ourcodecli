@@ -27,14 +27,14 @@ export async function copyPath(params: {
   if (absSource === absDest) {
     throw new CliError(
       ErrorCode.SAME_SOURCE_DEST,
-      'Source and destination cannot be the same path.',
+      'El origen y el destino no pueden ser la misma ruta.',
     );
   }
 
   if (isSubPath(absSource, absDest)) {
     throw new CliError(
       ErrorCode.DEST_INSIDE_SOURCE,
-      'Destination cannot be inside the source path (would cause recursion).',
+      'El destino no puede estar dentro del origen (provocaría recursión).',
     );
   }
 
@@ -43,23 +43,25 @@ export async function copyPath(params: {
   } catch (_err) {
     throw new CliError(
       ErrorCode.SOURCE_NOT_FOUND,
-      `Source not found: ${absSource}`,
+      `No se encontró el origen: ${absSource}`,
     );
   }
 
-  // Ensure destination parent exists (skipped on dry-run)
+  // Asegura que exista el directorio padre del destino (se omite en dry-run)
   if (dryRun) {
-    console.log(`Would ensure parent directory exists: ${dirname(absDest)}`);
+    console.log(
+      `Se aseguraría que exista el directorio padre: ${dirname(absDest)}`,
+    );
   } else {
     await mkdir(dirname(absDest), { recursive: true });
   }
 
   if (dryRun) {
     if (force) {
-      console.log(`Would remove destination (if exists): ${absDest}`);
+      console.log(`Se eliminaría el destino (si existe): ${absDest}`);
     }
     console.log(
-      `Would copy from ${absSource} to ${absDest} (options: dereference=${!preserveSymlinks}, recursive=true, force=${force})`,
+      `Se copiaría de ${absSource} a ${absDest} (opciones: dereference=${!preserveSymlinks}, recursive=true, force=${force})`,
     );
     return;
   }

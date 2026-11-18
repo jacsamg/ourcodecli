@@ -1,33 +1,33 @@
 # Our code CLI - Symlink
-- A CLI tool to create symbolic links to files or directories
-- Install with `npm i -D @ourcodecli/symlink`
+- CLI para crear enlaces simbólicos a archivos o directorios
+- Instala con `npm i -D @ourcodecli/symlink`
 
-## Usage
+## Uso
 
 ```bash
-# Create symlink(s) in one or more target directories
+# Crea enlaces simbólicos en uno o más directorios de destino
 our-symlink <sourcePath> <targetPath>,<targetPath>,...
 
-# Rename the symlink in destinations
+# Renombra el enlace simbólico en los destinos
 our-symlink <sourcePath> <targetPath>,<targetPath> --name <name>
 our-symlink <sourcePath> <targetPath>,<targetPath> -n <name>
 
-# Replace destination entry if it exists
+# Reemplaza la entrada de destino si existe
 our-symlink <sourcePath> <targetPath>,<targetPath> --force
 our-symlink <sourcePath> <targetPath>,<targetPath> -f
 
-# Load operations from config JSON
+# Carga las operaciones desde un JSON de configuración
 our-symlink --config <pathToConfig>
 our-symlink -c <pathToConfig>
 
-# Show help and version
+# Muestra la ayuda y la versión
 our-symlink --help
 our-symlink --version
 ```
 
-## Config format (`--config`)
+## Formato de configuración (`--config`)
 
-Config file must match `OurSymlinkConfig`:
+El archivo de configuración debe cumplir con `OurSymlinkConfig`:
 
 ```ts
 export interface SymlinkConfig {
@@ -43,7 +43,7 @@ export interface OurSymlinkConfig {
 }
 ```
 
-Example:
+Ejemplo:
 
 ```json
 {
@@ -68,17 +68,17 @@ Example:
 }
 ```
 
-JSON Schema available at:
-- `config.schema.json` (portable JSON Schema file)
-- `src/config-schema.ts` (`SYMLINK_CONFIG_SCHEMA`, used by config validation in `src/symlink.ts`)
+JSON Schema disponible en:
+- `config.schema.json` (archivo JSON Schema portable)
+- `src/config-schema.ts` (`SYMLINK_CONFIG_SCHEMA`, usado por la validación de configuración en `src/symlink.ts`)
 
-## Notes
+## Notas
 
-- Relative and absolute paths are supported. All paths are normalized from current working directory.
-- `sourcePath` can be a file or directory.
-- `targetPath` values are treated as destination directories. Missing directories are created.
-- `force` is optional in config and defaults to `false`.
-- `targetName` is optional in config and defaults to the source basename.
-- Execution continues across multiple targets and reports a final success/failure summary.
-- When using `--config`, do not pass `--name` or `--force` in command line (those values come from each config entry).
-- On Windows, directory links use `junction` for compatibility.
+- Se admiten rutas relativas y absolutas. Todas las rutas se normalizan desde el directorio de trabajo actual.
+- `sourcePath` puede ser un archivo o un directorio.
+- Los valores de `targetPath` se tratan como directorios de destino. Los directorios que no existen se crean.
+- `force` es opcional en la configuración y por defecto es `false`.
+- `targetName` es opcional en la configuración y por defecto es el nombre base del origen.
+- La ejecución continúa a través de todos los destinos y al final reporta un resumen de éxitos y fallos.
+- Al usar `--config`, no pases `--name` ni `--force` en la línea de comandos (esos valores vienen de cada entrada de la configuración).
+- En Windows, los enlaces a directorios usan `junction` por compatibilidad.

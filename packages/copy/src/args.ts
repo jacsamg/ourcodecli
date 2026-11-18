@@ -13,17 +13,17 @@ export interface CopyArgs {
 
 export function showHelp(): void {
   const usage = `
-Usage: our-copy <source> <destination> [options]
+Uso: our-copy <source> <destination> [opciones]
 
-Options:
-  -f, --force               Overwrite destination if it exists
-  -p, --preserve-symlinks   Preserve symbolic links instead of dereferencing them
-  -r, --rename <newName>    New name for the copied file or directory
-  -n, --dry-run             Print planned actions without modifying the filesystem
-  -h, --help                Show this help message
-  -v, --version             Show version
+Opciones:
+  -f, --force               Sobrescribe el destino si existe
+  -p, --preserve-symlinks   Conserva los enlaces simbólicos en lugar de resolverlos
+  -r, --rename <newName>    Nuevo nombre del archivo o directorio copiado
+  -n, --dry-run             Muestra las acciones previstas sin modificar el sistema de archivos
+  -h, --help                Muestra esta ayuda
+  -v, --version             Muestra la versión
 
-Examples:
+Ejemplos:
   our-copy src dist
   our-copy ./templates ./out -f
   our-copy ./dir ./dest --rename new-name
@@ -63,7 +63,7 @@ export function parseArgs(argv: string[]): CopyArgs {
         if (!next || next.startsWith('-')) {
           throw new CliError(
             ErrorCode.MISSING_RENAME_VALUE,
-            'Missing value for --rename option.',
+            'Falta el valor de la opción --rename.',
           );
         }
         copyArgs.rename = next;
@@ -84,8 +84,11 @@ export function parseArgs(argv: string[]): CopyArgs {
         break;
       default:
         if (arg.startsWith('-')) {
-          // Unknown flag – show help via TOO_MANY_ARGS to reuse handler
-          throw new CliError(ErrorCode.TOO_MANY_ARGS, `Unknown option: ${arg}`);
+          // Flag desconocido: muestra la ayuda vía TOO_MANY_ARGS para reutilizar el manejador
+          throw new CliError(
+            ErrorCode.TOO_MANY_ARGS,
+            `Opción desconocida: ${arg}`,
+          );
         }
         if (copyArgs.source === null) {
           copyArgs.source = arg;
@@ -94,7 +97,7 @@ export function parseArgs(argv: string[]): CopyArgs {
         } else {
           throw new CliError(
             ErrorCode.TOO_MANY_ARGS,
-            'Too many arguments provided.',
+            'Se recibieron demasiados argumentos.',
           );
         }
     }

@@ -12,18 +12,18 @@ export interface SymlinkArgs {
 
 export function showHelp(): void {
   const usage = `
-Usage:
-  our-symlink <sourcePath> <targetPath>,<targetPath>,... [options]
+Uso:
+  our-symlink <sourcePath> <targetPath>,<targetPath>,... [opciones]
   our-symlink --config <path>
 
-Options:
-  -n, --name <name>      Rename symlink in destination directory
-  -f, --force            Replace destination entry if it exists
-  -c, --config <path>    JSON file matching OurSymlinkConfig
-  -h, --help             Show this help message
-  -v, --version          Show version
+Opciones:
+  -n, --name <name>      Renombra el enlace en el directorio de destino
+  -f, --force            Reemplaza la entrada de destino si existe
+  -c, --config <path>    Archivo JSON que cumple con OurSymlinkConfig
+  -h, --help             Muestra esta ayuda
+  -v, --version          Muestra la versión
 
-Examples:
+Ejemplos:
   our-symlink ./src.txt ./apps/a,./apps/b
   our-symlink ./src-dir ./apps/a,./apps/b --name shared --force
   our-symlink --config ./our-symlink.json
@@ -59,7 +59,7 @@ export function parseArgs(argv: string[]): SymlinkArgs {
         if (!next || next.startsWith('-')) {
           throw new CliError(
             ErrorCode.MISSING_NAME_VALUE,
-            'Missing value for --name option.',
+            'Falta el valor de la opción --name.',
           );
         }
         out.targetName = next;
@@ -76,7 +76,7 @@ export function parseArgs(argv: string[]): SymlinkArgs {
         if (!next || next.startsWith('-')) {
           throw new CliError(
             ErrorCode.MISSING_CONFIG_VALUE,
-            'Missing value for --config option.',
+            'Falta el valor de la opción --config.',
           );
         }
         out.config = next;
@@ -93,7 +93,7 @@ export function parseArgs(argv: string[]): SymlinkArgs {
         break;
       default:
         if (arg.startsWith('-')) {
-          throw new CliError(ErrorCode.TOO_MANY_ARGS, `Unknown option: ${arg}`);
+          throw new CliError(ErrorCode.TOO_MANY_ARGS, `Opción desconocida: ${arg}`);
         }
         if (out.source === null) {
           out.source = arg;
@@ -102,7 +102,7 @@ export function parseArgs(argv: string[]): SymlinkArgs {
         } else {
           throw new CliError(
             ErrorCode.TOO_MANY_ARGS,
-            'Too many positional arguments provided.',
+            'Se recibieron demasiados argumentos posicionales.',
           );
         }
     }
@@ -111,7 +111,7 @@ export function parseArgs(argv: string[]): SymlinkArgs {
   if (out.config !== null && (out.targetName !== null || out.force)) {
     throw new CliError(
       ErrorCode.CONFIG_WITH_INLINE_OPTIONS,
-      'When using --config, do not pass --name or --force in command line.',
+      'Al usar --config, no pases --name ni --force en la línea de comandos.',
     );
   }
 

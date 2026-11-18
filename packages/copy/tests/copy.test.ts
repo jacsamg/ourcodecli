@@ -12,7 +12,7 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-  // Cleanup after each test
+  // Limpieza después de cada prueba
   await rm(tmpRoot, { recursive: true, force: true });
 });
 
@@ -71,7 +71,7 @@ describe('copyPath', () => {
     });
 
     const printed = logSpy.mock.calls.flat().join('\n');
-    expect(printed).toContain('Would copy from');
+    expect(printed).toContain('Se copiaría de');
     logSpy.mockRestore();
   });
 
@@ -81,7 +81,7 @@ describe('copyPath', () => {
     await mkdir(src, { recursive: true });
     await writeFile(join(src, 'a.txt'), 'hello', 'utf8');
 
-    // First copy to create destination
+    // Primera copia para crear el destino
     await copyPath({
       absSource: src,
       absDest: dest,
@@ -89,10 +89,10 @@ describe('copyPath', () => {
       preserveSymlinks: false,
     });
 
-    // Change source content
+    // Cambia el contenido del origen
     await writeFile(join(src, 'a.txt'), 'world', 'utf8');
 
-    // Copy with force to overwrite
+    // Copia con force para sobrescribir
     await copyPath({
       absSource: src,
       absDest: dest,

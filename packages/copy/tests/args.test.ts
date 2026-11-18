@@ -53,7 +53,7 @@ describe('showHelp', () => {
     const printed = spy.mock.calls
       .map((c: unknown[]) => (c as unknown[]).join(' '))
       .join('\n');
-    expect(printed).toContain('Usage: our-copy');
+    expect(printed).toContain('Uso: our-copy');
     spy.mockRestore();
   });
 });

@@ -1,27 +1,27 @@
 # Our code CLI - Delete
-- A CLI tool to delete files and directories
-- Install with `npm i -D @ourcodecli/delete`
+- CLI para eliminar archivos y directorios
+- Instala con `npm i -D @ourcodecli/delete`
 
-## Usage
+## Uso
 
 ```bash
-# Delete one or more paths
+# Elimina una o más rutas
 our-delete <path1> [path2] ...
 
-# Force deletion without confirmation
+# Fuerza la eliminación sin confirmación
 our-delete <path> --force
 
-# Exit on first error (stop processing further paths)
+# Termina en el primer error (no procesa las rutas restantes)
 our-delete <path> --strict
 
-# Show help or version
+# Muestra la ayuda o la versión
 our-delete --help
 our-delete --version
 ```
 
-Options:
+Opciones:
 
-- -f, --force     Force deletion without confirmation
-- -s, --strict    Exit on first error (stop processing further paths)
-- -h, --help      Show help message
-- -v, --version   Print version
+- -f, --force     Fuerza la eliminación sin confirmación
+- -s, --strict    Termina en el primer error (no procesa las rutas restantes)
+- -h, --help      Muestra la ayuda
+- -v, --version   Imprime la versión

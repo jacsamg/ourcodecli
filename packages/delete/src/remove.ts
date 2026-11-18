@@ -12,15 +12,15 @@ export async function removePath(params: {
   } catch (error) {
     const err = error as NodeJS.ErrnoException;
     if (err.code === 'ENOENT') {
-      // Nonexistent path is not an error
+      // Una ruta inexistente no es un error
       return;
     }
     if (strict) {
       throw new CliError(
         ErrorCode.DELETE_FAILED,
-        `Failed to delete: ${absPath} (${err.code ?? 'UNKNOWN'})`,
+        `No se pudo eliminar: ${absPath} (${err.code ?? 'UNKNOWN'})`,
       );
     }
-    // In non-strict mode, swallow errors to continue deleting other paths
+    // En modo no estricto, se ignoran los errores para seguir eliminando las demás rutas
   }
 }

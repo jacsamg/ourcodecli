@@ -93,7 +93,7 @@ describe('showHelp', () => {
     showHelp();
     expect(spy).toHaveBeenCalled();
     const printed = spy.mock.calls.flat().join('\n');
-    expect(printed).toContain('Usage:');
+    expect(printed).toContain('Uso:');
     expect(printed).toContain('our-symlink');
     spy.mockRestore();
   });

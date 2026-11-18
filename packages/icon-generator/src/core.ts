@@ -21,20 +21,20 @@ export async function generateIcons(params: {
     dryRun = false,
   } = params;
 
-  // Validate source exists
+  // Valida que exista el origen
   try {
     await stat(absSource);
   } catch {
     throw new CliError(
       ErrorCode.SOURCE_NOT_FOUND,
-      `Source image not found: ${absSource}`,
+      `No se encontró la imagen de origen: ${absSource}`,
     );
   }
 
-  // Ensure destination directory
+  // Asegura que exista el directorio de destino
   if (!existsSync(absDest)) {
     if (dryRun) {
-      console.log(`Would create directory: ${absDest}`);
+      console.log(`Se crearía el directorio: ${absDest}`);
     } else {
       await mkdir(absDest, { recursive: true });
     }
@@ -46,7 +46,7 @@ export async function generateIcons(params: {
     const filename = `${baseName}-${size}x${size}.png`;
     const outputPath = join(absDest, filename);
     if (dryRun) {
-      console.log(`Would generate: ${outputPath}`);
+      console.log(`Se generaría: ${outputPath}`);
       continue;
     }
     await sharp(absSource)

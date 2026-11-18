@@ -23,7 +23,7 @@ function validateConfig(value: unknown): OurSymlinkConfig {
   if (!isPlainObject(value)) {
     throw new CliError(
       ErrorCode.INVALID_CONFIG,
-      'Config root must be an object with a "symlinks" array.',
+      'La raíz de la configuración debe ser un objeto con un arreglo "symlinks".',
     );
   }
 
@@ -31,7 +31,7 @@ function validateConfig(value: unknown): OurSymlinkConfig {
   if (!Array.isArray(symlinks)) {
     throw new CliError(
       ErrorCode.INVALID_CONFIG,
-      'Config root property "symlinks" must be an array.',
+      'La propiedad raíz "symlinks" debe ser un arreglo.',
     );
   }
 
@@ -40,7 +40,7 @@ function validateConfig(value: unknown): OurSymlinkConfig {
     if (!isPlainObject(item)) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Each config entry must be an object with sourcePath, targetDir and optional force/targetName.',
+        'Cada entrada de la configuración debe ser un objeto con sourcePath, targetDir y, opcionalmente, force/targetName.',
       );
     }
 
@@ -48,7 +48,7 @@ function validateConfig(value: unknown): OurSymlinkConfig {
       if (!allowedKeysSet.has(key)) {
         throw new CliError(
           ErrorCode.INVALID_CONFIG,
-          `Unknown config entry property "${key}". Allowed properties: ${allowedKeys.join(', ')}.`,
+          `Propiedad desconocida "${key}" en una entrada de la configuración. Propiedades permitidas: ${allowedKeys.join(', ')}.`,
         );
       }
     }
@@ -56,7 +56,7 @@ function validateConfig(value: unknown): OurSymlinkConfig {
       if (!(key in item)) {
         throw new CliError(
           ErrorCode.INVALID_CONFIG,
-          `Missing config entry property "${key}". Required properties: ${requiredKeys.join(', ')}.`,
+          `Falta la propiedad "${key}" en una entrada de la configuración. Propiedades obligatorias: ${requiredKeys.join(', ')}.`,
         );
       }
     }
@@ -68,13 +68,13 @@ function validateConfig(value: unknown): OurSymlinkConfig {
     if (force !== undefined && typeof force !== 'boolean') {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "force" must be a boolean when provided.',
+        'La propiedad "force" debe ser un booleano cuando se indica.',
       );
     }
     if (typeof sourcePath !== 'string' || sourcePath.trim().length === 0) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "sourcePath" must be a non-empty string.',
+        'La propiedad "sourcePath" debe ser un texto no vacío.',
       );
     }
     if (
@@ -83,19 +83,19 @@ function validateConfig(value: unknown): OurSymlinkConfig {
     ) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "targetName" must be a non-empty string when provided.',
+        'La propiedad "targetName" debe ser un texto no vacío cuando se indica.',
       );
     }
     if (!Array.isArray(targetDir)) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "targetDir" must be an array of strings.',
+        'La propiedad "targetDir" debe ser un arreglo de textos.',
       );
     }
     if (targetDir.some((t) => typeof t !== 'string')) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "targetDir" must contain only strings.',
+        'La propiedad "targetDir" solo debe contener textos.',
       );
     }
 
@@ -106,7 +106,7 @@ function validateConfig(value: unknown): OurSymlinkConfig {
     if (cleanTargetDir.length === 0) {
       throw new CliError(
         ErrorCode.INVALID_CONFIG,
-        'Config entry "targetDir" must include at least one non-empty directory path.',
+        'La propiedad "targetDir" debe incluir al menos una ruta de directorio no vacía.',
       );
     }
 
@@ -128,7 +128,7 @@ export async function loadConfig(absConfigPath: string): Promise<OurSymlinkConfi
   } catch (_error) {
     throw new CliError(
       ErrorCode.INVALID_CONFIG,
-      `Cannot read config file: ${absConfigPath}`,
+      `No se pudo leer el archivo de configuración: ${absConfigPath}`,
     );
   }
 
@@ -138,7 +138,7 @@ export async function loadConfig(absConfigPath: string): Promise<OurSymlinkConfi
   } catch (_error) {
     throw new CliError(
       ErrorCode.INVALID_CONFIG,
-      `Invalid JSON in config file: ${absConfigPath}`,
+      `JSON inválido en el archivo de configuración: ${absConfigPath}`,
     );
   }
 
@@ -152,14 +152,14 @@ export async function ensureSource(absSource: string): Promise<SourceInfo> {
   } catch (_error) {
     throw new CliError(
       ErrorCode.SOURCE_NOT_FOUND,
-      `Source path not found: ${absSource}`,
+      `No se encontró la ruta de origen: ${absSource}`,
     );
   }
 
   if (!sourceStats.isFile() && !sourceStats.isDirectory()) {
     throw new CliError(
       ErrorCode.SOURCE_INVALID_TYPE,
-      `Source must be a file or directory: ${absSource}`,
+      `El origen debe ser un archivo o un directorio: ${absSource}`,
     );
   }
 
@@ -182,7 +182,7 @@ export async function createSymlinkInTarget(params: {
     if (!targetStats.isDirectory()) {
       throw new CliError(
         ErrorCode.TARGET_NOT_DIRECTORY,
-        `Target path must be a directory: ${absTargetDir}`,
+        `La ruta de destino debe ser un directorio: ${absTargetDir}`,
       );
     }
   } catch (error) {
@@ -195,7 +195,7 @@ export async function createSymlinkInTarget(params: {
     } else {
       throw new CliError(
         ErrorCode.TARGET_NOT_DIRECTORY,
-        `Target path is not accessible: ${absTargetDir}`,
+        `No se puede acceder a la ruta de destino: ${absTargetDir}`,
       );
     }
   }
@@ -206,7 +206,7 @@ export async function createSymlinkInTarget(params: {
     if (!force) {
       throw new CliError(
         ErrorCode.DEST_EXISTS,
-        `Destination already exists: ${absDest}. Use --force to replace it.`,
+        `El destino ya existe: ${absDest}. Usa --force para reemplazarlo.`,
       );
     }
     await rm(absDest, { recursive: true, force: true });

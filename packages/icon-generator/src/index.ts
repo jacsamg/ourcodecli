@@ -39,7 +39,7 @@ async function main(argv: string[]): Promise<number> {
     if (!source || !destination || !name) {
       throw new CliError(
         ErrorCode.MISSING_ARGS,
-        'Missing required arguments: <source> <destination> <name>.',
+        'Faltan argumentos obligatorios: <source> <destination> <name>.',
       );
     }
 
@@ -55,9 +55,11 @@ async function main(argv: string[]): Promise<number> {
     });
 
     if (dryRun) {
-      console.log('Dry run complete. No files were written.');
+      console.log('Simulación completada. No se escribieron archivos.');
     } else {
-      console.log(`\n✅ All icons generated successfully in ${absDest}`);
+      console.log(
+        `\n✅ Todos los iconos se generaron correctamente en ${absDest}`,
+      );
     }
     return 0;
   } catch (error) {
@@ -72,7 +74,7 @@ async function main(argv: string[]): Promise<number> {
       }
       return error.exitCode ?? 1;
     }
-    console.error('❌ Error generating icons:', error);
+    console.error('❌ Error al generar los iconos:', error);
     return 1;
   }
 }
@@ -80,6 +82,6 @@ async function main(argv: string[]): Promise<number> {
 main(process.argv.slice(2))
   .then((code) => process.exit(code))
   .catch((err) => {
-    console.error('Fatal error:', err);
+    console.error('Error fatal:', err);
     process.exit(1);
   });

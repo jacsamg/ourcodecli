@@ -12,17 +12,17 @@ export interface IconArgs {
 
 export function showHelp(): void {
   const usage = `
-Usage: our-icon-gen <source> <destination> <name> [options]
+Uso: our-icon-gen <source> <destination> <name> [opciones]
 
-Generate PWA icons from a source image.
+Genera iconos de PWA a partir de una imagen de origen.
 
-Options:
-  -s, --sizes <list>   Comma-separated list of sizes to generate (e.g. 72,96,128)
-  -n, --dry-run        Print planned outputs without writing files
-  -h, --help           Show this help message
-  -v, --version        Show version
+Opciones:
+  -s, --sizes <list>   Lista de tamaños separados por comas (p. ej. 72,96,128)
+  -n, --dry-run        Muestra los archivos previstos sin escribirlos
+  -h, --help           Muestra esta ayuda
+  -v, --version        Muestra la versión
 
-Examples:
+Ejemplos:
   our-icon-gen ./logo.png ./public/icons app
   our-icon-gen ./logo.png ./icons app --sizes 72,96,128 -n
 `;
@@ -50,7 +50,7 @@ export function parseArgs(argv: string[]): IconArgs {
         if (!next || next.startsWith('-')) {
           throw new CliError(
             ErrorCode.INVALID_SIZES,
-            'Missing value for --sizes option.',
+            'Falta el valor de la opción --sizes.',
           );
         }
         const parts = next
@@ -61,7 +61,7 @@ export function parseArgs(argv: string[]): IconArgs {
         if (numbers.some((n) => Number.isNaN(n) || n <= 0)) {
           throw new CliError(
             ErrorCode.INVALID_SIZES,
-            'Invalid sizes list. Provide comma-separated positive integers.',
+            'Lista de tamaños inválida. Indica enteros positivos separados por comas.',
           );
         }
         parsed.sizes = numbers;
@@ -82,7 +82,10 @@ export function parseArgs(argv: string[]): IconArgs {
         break;
       default:
         if (arg.startsWith('-')) {
-          throw new CliError(ErrorCode.TOO_MANY_ARGS, `Unknown option: ${arg}`);
+          throw new CliError(
+            ErrorCode.TOO_MANY_ARGS,
+            `Opción desconocida: ${arg}`,
+          );
         }
         if (parsed.source === null) {
           parsed.source = arg;
@@ -93,7 +96,7 @@ export function parseArgs(argv: string[]): IconArgs {
         } else {
           throw new CliError(
             ErrorCode.TOO_MANY_ARGS,
-            'Too many arguments provided.',
+            'Se recibieron demasiados argumentos.',
           );
         }
     }

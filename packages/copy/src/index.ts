@@ -9,7 +9,7 @@ import { copyPath } from './copy.js';
 import { CliError, ErrorCode } from './errors.js';
 
 async function getVersion(): Promise<string> {
-  // Resolve path to package.json (dist/index.js sits next to package.json)
+  // Resuelve la ruta a package.json (dist/index.js está junto a package.json)
   const thisFile = fileURLToPath(import.meta.url);
   const pkgPath = join(thisFile, '..', '..', 'package.json');
   try {
@@ -40,7 +40,7 @@ async function main(argv: string[]): Promise<number> {
     if (!source || !destination) {
       throw new CliError(
         ErrorCode.MISSING_ARGS,
-        'Missing required arguments: <source> and <destination>.',
+        'Faltan argumentos obligatorios: <source> y <destination>.',
       );
     }
 
@@ -60,9 +60,9 @@ async function main(argv: string[]): Promise<number> {
     });
 
     if (args.dryRun) {
-      console.log('Dry run complete. No changes were made.');
+      console.log('Simulación completada. No se realizaron cambios.');
     } else {
-      console.log(`Successfully copied from ${absSource} to ${absDest}`);
+      console.log(`Se copió correctamente de ${absSource} a ${absDest}`);
     }
     return 0;
   } catch (error) {
@@ -79,19 +79,19 @@ async function main(argv: string[]): Promise<number> {
       return err.exitCode ?? 1;
     }
 
-    // Unknown/unexpected error
-    console.error('Error copying path:', error);
+    // Error desconocido o inesperado
+    console.error('Error al copiar la ruta:', error);
     return 1;
   }
 }
 
-// Execute when run as a script
+// Se ejecuta cuando se invoca como script
 main(process.argv.slice(2))
   .then((code) => {
-    // Explicitly exit with the returned code for consistent shell behavior
+    // Sale explícitamente con el código devuelto para un comportamiento consistente en la shell
     process.exit(code);
   })
   .catch((err) => {
-    console.error('Fatal error:', err);
+    console.error('Error fatal:', err);
     process.exit(1);
   });

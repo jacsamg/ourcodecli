@@ -9,7 +9,7 @@ import { CliError, ErrorCode } from './errors.js';
 import { removePath } from './remove.js';
 
 async function getVersion(): Promise<string> {
-  // Resolve path to package.json (dist/index.js sits next to package.json)
+  // Resuelve la ruta a package.json (dist/index.js está junto a package.json)
   const thisFile = fileURLToPath(import.meta.url);
   const pkgPath = join(thisFile, '..', '..', 'package.json');
   try {
@@ -39,14 +39,14 @@ async function main(argv: string[]): Promise<number> {
     if (args.paths.length === 0) {
       throw new CliError(
         ErrorCode.MISSING_ARGS,
-        'Missing required argument(s): <path1> [path2] ...',
+        'Faltan argumentos obligatorios: <path1> [path2] ...',
       );
     }
 
     for (const relativePath of args.paths) {
       const absPath = resolve(relativePath);
       await removePath({ absPath, force: args.force, strict: args.strict });
-      console.log(`Successfully deleted ${absPath}`);
+      console.log(`Se eliminó correctamente ${absPath}`);
     }
     return 0;
   } catch (error) {
@@ -61,15 +61,15 @@ async function main(argv: string[]): Promise<number> {
       }
       return err.exitCode ?? 1;
     }
-    console.error('Error deleting path:', error);
+    console.error('Error al eliminar la ruta:', error);
     return 1;
   }
 }
 
-// Execute when run as a script
+// Se ejecuta cuando se invoca como script
 main(process.argv.slice(2))
   .then((code) => process.exit(code))
   .catch((err) => {
-    console.error('Fatal error:', err);
+    console.error('Error fatal:', err);
     process.exit(1);
   });

@@ -10,15 +10,15 @@ export interface DeleteArgs {
 
 export function showHelp(): void {
   const usage = `
-Usage: our-delete <path1> [path2] ... [options]
+Uso: our-delete <path1> [path2] ... [opciones]
 
-Options:
-  -f, --force     Force deletion without confirmation
-  -s, --strict    Exit on first error (stop processing further paths)
-  -h, --help      Show this help message
-  -v, --version   Show version
+Opciones:
+  -f, --force     Fuerza la eliminación sin confirmación
+  -s, --strict    Termina en el primer error (no procesa las rutas restantes)
+  -h, --help      Muestra esta ayuda
+  -v, --version   Muestra la versión
 
-Examples:
+Ejemplos:
   our-delete ./dist
   our-delete ./dist ./tmp -f
   our-delete ./foo -s
@@ -58,7 +58,10 @@ export function parseArgs(argv: string[]): DeleteArgs {
         break;
       default:
         if (arg.startsWith('-')) {
-          throw new CliError(ErrorCode.TOO_MANY_ARGS, `Unknown option: ${arg}`);
+          throw new CliError(
+            ErrorCode.TOO_MANY_ARGS,
+            `Opción desconocida: ${arg}`,
+          );
         }
         out.paths.push(arg);
     }

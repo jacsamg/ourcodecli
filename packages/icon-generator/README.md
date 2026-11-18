@@ -1,34 +1,33 @@
 # @ourcodecli/icon-generator
 
-- A CLI tool to generate PWA icon PNGs at common sizes from a single source image
-- Install with `npm i -D @ourcodecli/icon-generator`
+- CLI para generar iconos PNG de PWA en los tamaños habituales a partir de una sola imagen
+- Instala con `npm i -D @ourcodecli/icon-generator`
 
-## Usage
+## Uso
 
 ```
 our-icon-gen <source> <destination> <name> [options]
 ```
 
-- source: Path to source image (e.g. a large square PNG or SVG)
-- destination: Output directory where icons will be written
-- name: Base name for generated files (e.g. `app` -> `app-192x192.png`)
+- source: ruta de la imagen de origen (p. ej. un PNG cuadrado grande o un SVG)
+- destination: directorio de salida donde se escriben los iconos
+- name: nombre base de los archivos generados (p. ej. `app` -> `app-192x192.png`)
 
-### Options
+### Opciones
 
-- `-s, --sizes <list>` Comma-separated list of sizes to generate (default: 72,96,128,144,152,192,384,512)
-- `-n, --dry-run` Show what would be generated without writing files
-- `-h, --help` Show help
-- `-v, --version` Show version
+- `-s, --sizes <list>` Lista de tamaños separados por comas (por defecto: 72,96,128,144,152,192,384,512)
+- `-n, --dry-run` Muestra qué se generaría sin escribir archivos
+- `-h, --help` Muestra la ayuda
+- `-v, --version` Muestra la versión
 
-### Examples
+### Ejemplos
 
 ```
 our-icon-gen ./logo.png ./public/icons app
 our-icon-gen ./logo.png ./icons app --sizes 72,96,128 -n
 ```
 
-## Notes
+## Notas
 
-- The tool uses `sharp` for image processing.
-- Source images should be large enough to downscale cleanly to the target sizes.
-
+- Usa `sharp` para procesar las imágenes.
+- La imagen de origen debe ser lo bastante grande para reducirse con nitidez a los tamaños de destino.

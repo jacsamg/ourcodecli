@@ -60,17 +60,17 @@ async function main(argv: string[]): Promise<number> {
             linkName,
             force: entry.force,
           });
-          console.log(`Linked ${absDest} -> ${absSource}`);
+          console.log(`Enlazado ${absDest} -> ${absSource}`);
           success++;
         } catch (error) {
           failed++;
           if (error instanceof CliError) {
             console.error(
-              `Failed for target "${target}" using source "${entry.sourcePath}": ${error.message}`,
+              `Falló el destino "${target}" con el origen "${entry.sourcePath}": ${error.message}`,
             );
           } else {
             console.error(
-              `Failed for target "${target}" using source "${entry.sourcePath}":`,
+              `Falló el destino "${target}" con el origen "${entry.sourcePath}":`,
               error,
             );
           }
@@ -80,12 +80,12 @@ async function main(argv: string[]): Promise<number> {
 
     if (failed > 0) {
       console.error(
-        `Finished with errors. Success: ${success}, Failed: ${failed}, Total: ${total}.`,
+        `Terminó con errores. Correctos: ${success}, fallidos: ${failed}, total: ${total}.`,
       );
       return 1;
     }
 
-    console.log(`Finished successfully. Created ${success} symlink(s).`);
+    console.log(`Terminó correctamente. Enlaces simbólicos creados: ${success}.`);
     return 0;
   } catch (error) {
     if (error instanceof CliError) {
@@ -105,7 +105,7 @@ async function main(argv: string[]): Promise<number> {
       return err.exitCode ?? 1;
     }
 
-    console.error('Error creating symlink(s):', error);
+    console.error('Error al crear los enlaces simbólicos:', error);
     return 1;
   }
 }
@@ -115,7 +115,7 @@ async function resolveEntries(args: SymlinkArgs): Promise<ResolvedEntry[]> {
     if (args.source !== null || args.targets.length > 0) {
       throw new CliError(
         ErrorCode.CONFIG_WITH_POSITIONALS,
-        'Do not pass positional arguments when using --config.',
+        'No pases argumentos posicionales al usar --config.',
       );
     }
     const config = await loadConfig(resolve(args.config));
@@ -130,7 +130,7 @@ async function resolveEntries(args: SymlinkArgs): Promise<ResolvedEntry[]> {
   if (args.source === null || args.targets.length === 0) {
     throw new CliError(
       ErrorCode.MISSING_ARGS,
-      'Missing required arguments: <sourcePath> <targetPath>,<targetPath>,...',
+      'Faltan argumentos obligatorios: <sourcePath> <targetPath>,<targetPath>,...',
     );
   }
 
@@ -147,6 +147,6 @@ async function resolveEntries(args: SymlinkArgs): Promise<ResolvedEntry[]> {
 main(process.argv.slice(2))
   .then((code) => process.exit(code))
   .catch((err) => {
-    console.error('Fatal error:', err);
+    console.error('Error fatal:', err);
     process.exit(1);
   });

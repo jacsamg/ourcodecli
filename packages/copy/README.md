@@ -1,30 +1,30 @@
 # Our code CLI - Copy
-- A CLI tool to copy files and directories
-- Install with `npm i -D @ourcodecli/copy`
+- CLI para copiar archivos y directorios
+- Instala con `npm i -D @ourcodecli/copy`
 
-## Usage
+## Uso
 
 ```bash
-# Copy a file or directory
+# Copia un archivo o directorio
 our-copy <source> <destination>
 
-# Overwrite destination if it exists
+# Sobrescribe el destino si existe
 our-copy <source> <destination> --force
 our-copy <source> <destination> -f
 
-# Preserve symbolic links instead of dereferencing them
+# Conserva los enlaces simbólicos en lugar de resolverlos
 our-copy <source> <destination> --preserve-symlinks
 our-copy <source> <destination> -p
 
-# Rename the copied entry at destination
+# Renombra la entrada copiada en el destino
 our-copy <source> <destination> --rename <newName>
 our-copy <source> <destination> -r <newName>
 
-# Simular sin escribir cambios
+# Simula sin escribir cambios
 our-copy <source> <destination> --dry-run
 our-copy <source> <destination> -n
 
-# Show help and version
+# Muestra la ayuda y la versión
 our-copy --help
 our-copy --version
 ```

@@ -36,7 +36,7 @@ describe('showHelp', () => {
     showHelp();
     expect(spy).toHaveBeenCalled();
     const printed = spy.mock.calls.flat().join('\n');
-    expect(printed).toContain('Usage: our-delete');
+    expect(printed).toContain('Uso: our-delete');
     spy.mockRestore();
   });
 });

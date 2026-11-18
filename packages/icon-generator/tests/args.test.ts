@@ -51,7 +51,7 @@ describe('showHelp', () => {
     showHelp();
     expect(spy).toHaveBeenCalled();
     const printed = spy.mock.calls.map((c: unknown[]) => (c as unknown[]).join(' ')).join('\n');
-    expect(printed).toContain('Usage: our-icon-gen');
+    expect(printed).toContain('Uso: our-icon-gen');
     spy.mockRestore();
   });
 });
