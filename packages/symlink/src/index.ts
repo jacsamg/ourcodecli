@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { basename, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { type SymlinkArgs, parseArgs, showHelp } from './args.js';
+import { parseArgs, type SymlinkArgs, showHelp } from './args.js';
 import { CliError, ErrorCode } from './errors.js';
 import { createSymlinkInTarget, loadConfig } from './symlink.js';
 
@@ -85,7 +85,9 @@ async function main(argv: string[]): Promise<number> {
       return 1;
     }
 
-    console.log(`Terminó correctamente. Enlaces simbólicos creados: ${success}.`);
+    console.log(
+      `Terminó correctamente. Enlaces simbólicos creados: ${success}.`,
+    );
     return 0;
   } catch (error) {
     if (error instanceof CliError) {

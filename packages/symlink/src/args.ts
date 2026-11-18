@@ -93,7 +93,10 @@ export function parseArgs(argv: string[]): SymlinkArgs {
         break;
       default:
         if (arg.startsWith('-')) {
-          throw new CliError(ErrorCode.TOO_MANY_ARGS, `Opción desconocida: ${arg}`);
+          throw new CliError(
+            ErrorCode.TOO_MANY_ARGS,
+            `Opción desconocida: ${arg}`,
+          );
         }
         if (out.source === null) {
           out.source = arg;

@@ -1,8 +1,8 @@
-import { readFile } from 'node:fs/promises';
-import { lstat, mkdir, rm, stat, symlink } from 'node:fs/promises';
+import type { Stats } from 'node:fs';
+import { lstat, mkdir, readFile, rm, stat, symlink } from 'node:fs/promises';
 import { join } from 'node:path';
-import { CliError, ErrorCode } from './errors.js';
 import { SYMLINK_CONFIG_SCHEMA } from './config-schema.js';
+import { CliError, ErrorCode } from './errors.js';
 import type { OurSymlinkConfig, SymlinkConfig } from './types.js';
 
 interface SourceInfo {
@@ -113,7 +113,8 @@ function validateConfig(value: unknown): OurSymlinkConfig {
     entries.push({
       force: force ?? false,
       sourcePath: sourcePath.trim(),
-      targetName: typeof targetName === 'string' ? targetName.trim() : undefined,
+      targetName:
+        typeof targetName === 'string' ? targetName.trim() : undefined,
       targetDir: cleanTargetDir,
     });
   }
@@ -121,7 +122,9 @@ function validateConfig(value: unknown): OurSymlinkConfig {
   return { symlinks: entries };
 }
 
-export async function loadConfig(absConfigPath: string): Promise<OurSymlinkConfig> {
+export async function loadConfig(
+  absConfigPath: string,
+): Promise<OurSymlinkConfig> {
   let raw = '';
   try {
     raw = await readFile(absConfigPath, 'utf8');
@@ -146,7 +149,7 @@ export async function loadConfig(absConfigPath: string): Promise<OurSymlinkConfi
 }
 
 export async function ensureSource(absSource: string): Promise<SourceInfo> {
-  let sourceStats;
+  let sourceStats: Stats;
   try {
     sourceStats = await stat(absSource);
   } catch (_error) {
