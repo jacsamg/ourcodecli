@@ -12,7 +12,8 @@
     "our-copy": "./dist/index.js"
   },
   "files": [
-    "./dist"
+    "./dist",
+    "./config.schema.json"
   ],
   "publishConfig": {
     "access": "public",

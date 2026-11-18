@@ -6,6 +6,7 @@ export interface CopyArgs {
   destination: string | null;
   preserveSymlinks: boolean;
   rename: string | null;
+  config: string | null;
   help: boolean;
   version: boolean;
   dryRun: boolean;
@@ -14,11 +15,13 @@ export interface CopyArgs {
 export function showHelp(): void {
   const usage = `
 Uso: our-copy <source> <destination> [opciones]
+     our-copy --config <path> [--dry-run]
 
 Opciones:
   -f, --force               Sobrescribe el destino si existe
   -p, --preserve-symlinks   Conserva los enlaces simbólicos en lugar de resolverlos
   -r, --rename <newName>    Nuevo nombre del archivo o directorio copiado
+  -c, --config <path>       Archivo JSON que cumple con OurCopyConfig
   -n, --dry-run             Muestra las acciones previstas sin modificar el sistema de archivos
   -h, --help                Muestra esta ayuda
   -v, --version             Muestra la versión
@@ -28,8 +31,23 @@ Ejemplos:
   our-copy ./templates ./out -f
   our-copy ./dir ./dest --rename new-name
   our-copy ./link ./dest --preserve-symlinks
+  our-copy --config ./our-copy.json
 `;
   console.log(usage.trim());
+}
+
+function readOptionValue(
+  args: string[],
+  index: number,
+  code: ErrorCode,
+  option: string,
+): string {
+  const next = args[index + 1];
+  if (!next || next.startsWith('-')) {
+    throw new CliError(code, `Falta el valor de la opción ${option}.`);
+  }
+
+  return next;
 }
 
 export function parseArgs(argv: string[]): CopyArgs {
@@ -40,6 +58,7 @@ export function parseArgs(argv: string[]): CopyArgs {
     destination: null,
     preserveSymlinks: false,
     rename: null,
+    config: null,
     help: false,
     version: false,
     dryRun: false,
@@ -58,18 +77,31 @@ export function parseArgs(argv: string[]): CopyArgs {
         copyArgs.preserveSymlinks = true;
         break;
       case '--rename':
-      case '-r': {
-        const next = args[i + 1];
-        if (!next || next.startsWith('-')) {
-          throw new CliError(
-            ErrorCode.MISSING_RENAME_VALUE,
-            'Falta el valor de la opción --rename.',
-          );
-        }
-        copyArgs.rename = next;
+      case '-r':
+        copyArgs.rename = readOptionValue(
+          args,
+          i,
+          ErrorCode.MISSING_RENAME_VALUE,
+          '--rename',
+        );
         i++;
         break;
-      }
+      case '--config':
+      case '-c':
+        if (copyArgs.config !== null) {
+          throw new CliError(
+            ErrorCode.CONFIG_WITH_INLINE_OPTIONS,
+            'La opción --config solo puede indicarse una vez.',
+          );
+        }
+        copyArgs.config = readOptionValue(
+          args,
+          i,
+          ErrorCode.MISSING_CONFIG_VALUE,
+          '--config',
+        );
+        i++;
+        break;
       case '--help':
       case '-h':
         copyArgs.help = true;
@@ -101,6 +133,16 @@ export function parseArgs(argv: string[]): CopyArgs {
           );
         }
     }
+  }
+
+  if (
+    copyArgs.config !== null &&
+    (copyArgs.force || copyArgs.preserveSymlinks || copyArgs.rename !== null)
+  ) {
+    throw new CliError(
+      ErrorCode.CONFIG_WITH_INLINE_OPTIONS,
+      'Al usar --config, no pases --force, --preserve-symlinks ni --rename en la línea de comandos (se definen en cada entrada de la configuración).',
+    );
   }
 
   return copyArgs;
